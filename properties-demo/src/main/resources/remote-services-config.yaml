@@ -1,0 +1,6 @@
+american:
+  host: "training4-american-ws.cloudhub.io"
+  port: "80"
+  path: "/api/flights"
+  username: "admin"
+  password: "$ecretValuE"

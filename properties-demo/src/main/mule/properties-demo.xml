@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="properties-demoFlow" doc:id="74d578ad-af31-4baf-9fbb-bf94e4722833" >
+		<http:listener doc:name="Listener" doc:id="ba2967c0-98e6-4642-a9c8-7a6a6e398bdb" config-ref="HTTP_Listener_config" path="/prop-demo"/>
+		<ee:transform doc:name="Transform Response payload" doc:id="6e1f029f-b439-4136-9223-788588dba2e9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+	"SecureDetails":
+		{
+			"db.hostname": p('secure::db.host'),
+			"db.password": p('secure::db.password')
+		},
+	"RemoteDetails":
+		{
+			"american.host": p('american.host'),
+			"american.port": p('american.port'),
+			"american.path": p('american.path'),
+			"american.username": p('american.username'),
+			"american.password": p('american.password')
+		}	
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a3baa982-fecd-4c69-85e3-e778d175f518" message="#[payload]"/>
+	</flow>
+</mule>

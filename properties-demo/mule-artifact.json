@@ -1,0 +1,4 @@
+{
+  "minMuleVersion": "4.1.4",
+  "secureProperties": ["secure::db.password","secret.key","american.password"]
+}
