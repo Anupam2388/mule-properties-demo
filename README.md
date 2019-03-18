@@ -11,7 +11,9 @@ Download the encryption tool @
 https://docs.mulesoft.com/mule4-user-guide/v/4.1/_attachments/secure-properties-tool.jar  
 
 **secret key** used for this demo is ABCDE54321 
+
 **Alogorithm** = Blowfish
+
 **Mode** = ECB
 
 # 2. Adding Maven dependencies to your project
@@ -22,30 +24,40 @@ Add a module from the exchange or you can directly edit and add the below depend
 
   ![pom.xml](images/13-pom.xml.png)
 
-# 3 Configure the flow 
+# 3. Configure the flow 
 It is the basic flow with will print and form a basic payload from the values present in the properties files ( From Both Secure Properties and Remote Properties)
 ![AppLayout](images/8-AppLayout.png)
 
-# 4 Hiding Application Properties
+# 4. Hiding Application Properties
 Mule4 has introduced a new provision of hiding the value for property file from Runtime manager. CloudHub supports safely hiding application properties, where the name of a property is visible in the console, but the value is not displayed or retrievable by any user.
 
 During the development, the Developer uses the secret. the key variable to encrypt the value and the same value can be passed using the System property variable, but as the same secret key can be viewed by anyone who has view access to cloudhub it needs to be protected. Thus, in order to do that we need to protect the visibility of such variables. This can be done in mule 4 using the secure properties property in the mule-artifact.json file. 
 ![mule-artifact.json](images/4-mule-artifact.json.png)
 
-# 5 Deploy your application to Cloudhub
+# 5. Deploy your application to Cloudhub
 Right click on the project select "Anypoint Platform">>"Deploy to Cloudhub" and the below screen will appear. In the properties section Ops person can provide the secret.key value which will be only visible once during deployment.
 ![Deployment](images/1-Deployment.png)
 Secret.key value is not visible anyone and is non-retrievable
 ![SecureTheValue](images/2-SecureTheValue.png)
 
-# 6 Test your Application
+# 6. Test your Application
 Invoke the deployment application using the below URL 
 http://<cloudhud-provisioned-Addresss>/prop-demo
 The logger will print the values from secure and remote property files 
 ![Logger](images/3-Logger.png)
 
-# 7 Update the secure Properties file 
+# 7. Update the secure Properties file 
 If the value of any of the properties changes, we can update the new values directly under the properties section on cloud hub. 
-Note: The properties which are mentioned in the mule-artifact.json file will be protected and values won't be visible once the changes are applied. 
+
 ![UpdatedSecureValue](images/5-UpdatedSecureValue.png)
+
+Note: Once the values are committed and the application is uploaded, the safely hidden properties are never displayed on the console, nor sent and received between the console and the CloudHub server. There is no way to retrieve the property, once set. It can, however, be overwritten with a new value. So, if you need to update a value, type a new value into the field, as shown below.
+- Copying Safely Hidden Application Properties between Sandboxes When moving applications between sandboxes, safely hidden application property values will not be copied to the new environment. For all safely hidden 
+
+# 8. Properties Hierarchy
+Configuration properties can be overwritten. The Hierarchy in which these are treated is:
+- System Properties
+- Environment Properties
+- Deployment Properties
+- Application Properties
 
